@@ -26,9 +26,11 @@ export default function App() {
         formState: { errors },
         trigger,
     } = useForm();
+
     const onSubmit = (data) => {
         console.log(data);
         setData(data);
+        openModal();
         reset();
     };
 
@@ -93,7 +95,7 @@ export default function App() {
                         placeholder="Email"
                         type="email"
                         {...register("email", {
-                            required: true,
+                            required: "Email is Required",
                             pattern: {
                                 value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                 message: "Invaid Email",
@@ -118,7 +120,7 @@ export default function App() {
                         placeholder="Phone"
                         type="number"
                         {...register("number", {
-                            required: true,
+                            required: "number is Required",
                             pattern: {
                                 value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
                                 message: "Invalid number",
@@ -131,7 +133,7 @@ export default function App() {
 
                     {errors.number && (
                         <p className="text-xs font-light text-red-700">
-                            {errors.phone.message}
+                            {errors.number.message}
                         </p>
                     )}
                 </div>
@@ -166,7 +168,8 @@ export default function App() {
                 <input
                     className="mt-5 bg-blue-600 rounded-full p-2 text-white "
                     type="submit"
-                    onClick={ openModal }
+                    // onClick={ openModal }
+                    value="Submit"
                 />
             </form>
 
