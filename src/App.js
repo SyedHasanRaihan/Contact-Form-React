@@ -11,6 +11,7 @@ const customStyles = {
         marginRight: "-50%",
         // height:"100px",
         width: "400px",
+        // height: "400px",
         transform: "translate(-50%, -50%)",
         backgroundColor: "lightgray",
     },
@@ -72,7 +73,7 @@ export default function App() {
                                 message: "Maximum allowed length is 30",
                             },
                             pattern: {
-                                value: /^[a-zA-Z]+([._]?[a-zA-Z]+)*$/,
+                                value: /^[\p{L} ,.'-]+$/u,
                                 message: "Only (a-z) are allowed",
                             },
                         })}
@@ -182,10 +183,16 @@ export default function App() {
                     contentLabel="Example Modal"
                 >
                     {data.name && (
-                        <div>
-                            <h1>Thank you {data.name}</h1>{" "}
+                        <div className="relative flex justify-center items-center overflow-hidden">
+                            <h1 className="">
+                                Thank you{" "}
+                                <span className="font-bold text-indigo-600 text-xl">
+                                    {data.name}
+                                </span>
+                                !
+                            </h1>{" "}
                             <button
-                                className="text-red-600"
+                                className="text-red-600 text-2xl absolute -top-3 right-0"
                                 onClick={closeModal}
                             >
                                 &times;
