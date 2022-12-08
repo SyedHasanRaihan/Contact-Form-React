@@ -1,17 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Modal from "react-modal";
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        // height:"100px",
+        width: "400px",
+        transform: "translate(-50%, -50%)",
+        backgroundColor: "lightgray",
+    },
+};
 
 export default function App() {
+    const [data, setData] = useState("");
+
     const {
         register,
         reset,
         handleSubmit,
         formState: { errors },
+        trigger,
     } = useForm();
     const onSubmit = (data) => {
         console.log(data);
+        setData(data);
         reset();
     };
+
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        subtitle.style.color = "#fff";
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
     return (
         <div className="flex w-full h-screen bg-gradient-to-r from-cyan-500 to-blue-500 justify-center items-center">
             <form
@@ -24,10 +59,31 @@ export default function App() {
                         className="p-2 border rounded-lg focus:outline-blue-500 "
                         placeholder="Name"
                         type="text"
-                        {...register("name", { required: true, maxLength: 30 })}
+                        {...register("name", {
+                            required: "Name is Required",
+                            minLength: {
+                                value: 3,
+                                message: "Minimum Required length is 3",
+                            },
+                            maxLength: {
+                                value: 30,
+                                message: "Maximum allowed length is 30",
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z]+([._]?[a-zA-Z]+)*$/,
+                                message: "Only (a-z) are allowed",
+                            },
+                        })}
+                        onKeyUp={() => {
+                            trigger("name");
+                        }}
                     />
 
-                    {errors.name && <p className="text-xs font-light text-red-700">Please enter a valid name</p>}
+                    {errors.name && (
+                        <p className="text-xs font-light text-red-700">
+                            {errors.name.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="p-2 flex flex-col">
@@ -38,12 +94,21 @@ export default function App() {
                         type="email"
                         {...register("email", {
                             required: true,
-                            pattern:
-                                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            pattern: {
+                                value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                message: "Invaid Email",
+                            },
                         })}
+                        onKeyUp={() => {
+                            trigger("email");
+                        }}
                     />
 
-                    {errors.email && <p className="text-xs font-light text-red-700">Please enter a valid email</p>}
+                    {errors.email && (
+                        <p className="text-xs font-light text-red-700">
+                            {errors.email.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="p-2 flex flex-col">
@@ -54,11 +119,21 @@ export default function App() {
                         type="number"
                         {...register("number", {
                             required: true,
-                            pattern: /^(?:\+88|01)?\d{11}\r?$/,
+                            pattern: {
+                                value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                                message: "Invalid number",
+                            },
                         })}
+                        onKeyUp={() => {
+                            trigger("phone");
+                        }}
                     />
 
-                    {errors.number && <p className="text-xs font-light text-red-700">Please enter a valid Phone number</p>}
+                    {errors.number && (
+                        <p className="text-xs font-light text-red-700">
+                            {errors.phone.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="p-2 flex flex-col">
@@ -67,14 +142,55 @@ export default function App() {
                         className="p-2 border rounded-lg  focus:outline-blue-500 h-28"
                         type="text"
                         {...register("message", {
-                            maxLength: 80,
+                            required: "Message is Required",
+                            minLength: {
+                                value: 0,
+                                message: "Minimum Required length is 0",
+                            },
+                            maxLength: {
+                                value: 80,
+                                message: "Maximum allowed length is 80 ",
+                            },
                         })}
+                        onKeyUp={() => {
+                            trigger("message");
+                        }}
                     />
 
-                    {errors.message && <p className="text-xs font-light text-red-700">Keep between 80 characters And avoid Bad Words</p>}
+                    {errors.message && (
+                        <p className="text-xs font-light text-red-700">
+                            {errors.message.message}
+                        </p>
+                    )}
                 </div>
-                <button className="mt-5 bg-blue-600 rounded-full p-2 text-white " type="submit">Submit</button>
+                <input
+                    className="mt-5 bg-blue-600 rounded-full p-2 text-white "
+                    type="submit"
+                    onClick={ openModal }
+                />
             </form>
+
+            <div>
+                <Modal
+                    isOpen={modalIsOpen}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    {data.name && (
+                        <div>
+                            <h1>Thank you {data.name}</h1>{" "}
+                            <button
+                                className="text-red-600"
+                                onClick={closeModal}
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    )}
+                </Modal>
+            </div>
         </div>
     );
 }
