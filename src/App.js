@@ -123,7 +123,7 @@ export default function App() {
                         {...register("number", {
                             required: "number is Required",
                             pattern: {
-                                value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                                value: /^(?:\+88|88)?(01[3-9]\d{8})$/,
                                 message: "Invalid number",
                             },
                         })}
@@ -192,7 +192,7 @@ export default function App() {
                                 !
                             </h1>{" "}
                             <button
-                                className="text-red-600 text-2xl absolute -top-3 right-0"
+                                className="text-red-600 text-4xl absolute -top-4 right-0"
                                 onClick={closeModal}
                             >
                                 &times;
