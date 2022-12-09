@@ -2,6 +2,20 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 
+let swear = [
+    "arse",
+    "ass",
+    "asshole",
+    "bastard",
+    "bitch",
+    "bollocks",
+    "bugger",
+    "bullshit",
+    "crap",
+    "damn",
+    "frigger",
+];
+
 const customStyles = {
     content: {
         top: "50%",
@@ -19,14 +33,15 @@ const customStyles = {
 
 export default function App() {
     const [data, setData] = useState("");
+    const [foundBadWord, setfoundBadWord] = useState(false);
 
     const {
         register,
         reset,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting, isDirty, isValid },
         trigger,
-    } = useForm();
+    } = useForm({ mode: "onChange" });
 
     const onSubmit = (data) => {
         console.log(data);
@@ -49,6 +64,20 @@ export default function App() {
     function closeModal() {
         setIsOpen(false);
     }
+
+    const handleBadWords = (e) => {
+        console.log("clicked");
+        console.log(e.target.value);
+        const badWord = swear.filter((word) =>
+            e.target.value.toLowerCase().includes(word.toLowerCase())
+        );
+
+        if (badWord.length > 0) {
+            setfoundBadWord(true);
+        } else {
+            setfoundBadWord(false);
+        }
+    };
 
     return (
         <div className="flex w-full h-screen bg-gradient-to-r from-cyan-500 to-blue-500 justify-center items-center">
@@ -98,7 +127,7 @@ export default function App() {
                         {...register("email", {
                             required: "Email is Required",
                             pattern: {
-                                value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[com|info]{2,4}))$/,
                                 message: "Invaid Email",
                             },
                         })}
@@ -144,6 +173,8 @@ export default function App() {
                     <textarea
                         className="p-2 border rounded-lg  focus:outline-blue-500 h-28"
                         type="text"
+                        // value={text}
+                        // onChange={(e) => console.log(e.target.value)}
                         {...register("message", {
                             required: "Message is Required",
                             minLength: {
@@ -154,24 +185,40 @@ export default function App() {
                                 value: 80,
                                 message: "Maximum allowed length is 80 ",
                             },
+                            onChange: (e) => handleBadWords(e),
                         })}
                         onKeyUp={() => {
                             trigger("message");
                         }}
                     />
-
+                    {foundBadWord ? (
+                        <p className="text-xs font-light text-red-700">
+                            Found bad words!
+                        </p>
+                    ) : null}
                     {errors.message && (
                         <p className="text-xs font-light text-red-700">
                             {errors.message.message}
                         </p>
                     )}
                 </div>
-                <input
-                    className="mt-5 bg-blue-600 rounded-full p-2 text-white "
-                    type="submit"
-                    // onClick={ openModal }
-                    value="Submit"
-                />
+                {foundBadWord ? (
+                    <input
+                        className="mt-5 bg-slate-400 rounded-full p-2 text-white "
+                        type="button"
+                        // onClick={ openModal }
+                        value="Submit"
+                        disabled
+                    />
+                ) : (
+                    <input
+                        className={`mt-5 ${isValid ? "bg-blue-600" : "bg-slate-400"} rounded-full p-2 text-white`}
+                        type="submit"
+                        // onClick={ openModal }
+                        value="Submit"
+                        // disabled={!isDirty || !isValid}
+                    />
+                )}
             </form>
 
             <div>
