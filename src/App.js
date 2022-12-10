@@ -66,17 +66,27 @@ export default function App() {
     }
 
     const handleBadWords = (e) => {
-        console.log("clicked");
-        console.log(e.target.value);
-        const badWord = swear.filter((word) =>
-            e.target.value.toLowerCase().includes(word.toLowerCase())
-        );
+        let flag = 0;
+        const input = e.target.value.trim().split(" ");
 
-        if (badWord.length > 0) {
-            setfoundBadWord(true);
-        } else {
-            setfoundBadWord(false);
+        for (let i = 0; i < swear.length; i++) {
+            for (let j = 0; j < input.length; j++) {
+                if (swear[i] === input[j]) {
+                    setfoundBadWord(true);
+                    flag = 1;
+                    break;
+                }
+            }
         }
+        if(flag === 0){
+            setfoundBadWord(false)
+        }
+
+        // if (badWord.length > 0) {
+        //     setfoundBadWord(true);
+        // } else {
+        //     setfoundBadWord(false);
+        // }
     };
 
     return (
@@ -106,9 +116,9 @@ export default function App() {
                                 message: "Only (a-z) are allowed",
                             },
                         })}
-                        onKeyUp={() => {
-                            trigger("name");
-                        }}
+                        // onKeyUp={() => {
+                        //     trigger("name");
+                        // }}
                     />
 
                     {errors.name && (
@@ -131,9 +141,9 @@ export default function App() {
                                 message: "Invaid Email",
                             },
                         })}
-                        onKeyUp={() => {
-                            trigger("email");
-                        }}
+                        // onKeyUp={() => {
+                        //     trigger("email");
+                        // }}
                     />
 
                     {errors.email && (
@@ -156,9 +166,9 @@ export default function App() {
                                 message: "Invalid number",
                             },
                         })}
-                        onKeyUp={() => {
-                            trigger("phone");
-                        }}
+                        // onKeyUp={() => {
+                        //     trigger("phone");
+                        // }}
                     />
 
                     {errors.number && (
@@ -187,9 +197,9 @@ export default function App() {
                             },
                             onChange: (e) => handleBadWords(e),
                         })}
-                        onKeyUp={() => {
-                            trigger("message");
-                        }}
+                        // onKeyUp={() => {
+                        //     trigger("message");
+                        // }}
                     />
                     {foundBadWord ? (
                         <p className="text-xs font-light text-red-700">
@@ -212,7 +222,9 @@ export default function App() {
                     />
                 ) : (
                     <input
-                        className={`mt-5 ${isValid ? "bg-blue-600" : "bg-slate-400"} rounded-full p-2 text-white`}
+                        className={`mt-5 ${
+                            isValid ? "bg-blue-600" : "bg-slate-400"
+                        } rounded-full p-2 text-white`}
                         type="submit"
                         // onClick={ openModal }
                         value="Submit"
