@@ -34,6 +34,7 @@ const customStyles = {
 export default function App() {
     const [data, setData] = useState("");
     const [foundBadWord, setfoundBadWord] = useState(false);
+    const [toggle, setToggle] = useState(false);
 
     const {
         register,
@@ -65,6 +66,10 @@ export default function App() {
         setIsOpen(false);
     }
 
+    const toggleHandler = () => {
+        setToggle(!toggle);
+    };
+
     const handleBadWords = (e) => {
         let flag = 0;
         const input = e.target.value.trim().split(" ");
@@ -78,8 +83,8 @@ export default function App() {
                 }
             }
         }
-        if(flag === 0){
-            setfoundBadWord(false)
+        if (flag === 0) {
+            setfoundBadWord(false);
         }
 
         // if (badWord.length > 0) {
@@ -122,9 +127,37 @@ export default function App() {
                     />
 
                     {errors.name && (
-                        <p className="text-xs font-light text-red-700">
-                            {errors.name.message}
-                        </p>
+                        <div className="flex relative items-center justify-between">
+                            <p className="text-xs font-light text-red-700">
+                                {errors.name.message}
+                            </p>
+                            <button
+                                className="text-xs underline"
+                                onClick={toggleHandler}
+                            >
+                                Rules
+                            </button>
+                            {toggle ? (
+                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                                    <p className="text-lg cursor-pointer flex justify-end" onClick={toggleHandler}>&times;</p>
+                                    <p className="pb-1">
+                                        <span className="font-bold text-blue-600">Name</span> - must be string, can not have
+                                        numbers, can be maximum 30 characters.
+                                    </p>
+                                    <p className="pb-1">
+                                        <span className="font-bold text-blue-600">Email</span>  - must be string, the structure of
+                                        the input must match valid email
+                                        structure, i.e. user@address.com.
+                                    </p>
+                                    <p className="pb-1">
+                                        <span className="font-bold text-blue-600">Phone</span>  - must be string,</p>
+                                        <p className="pb-1">
+                                        <span className="font-bold text-blue-600">Message</span>  - must be string, at least 80
+                                        characters.
+                                    </p>
+                                </div>
+                            ) : null}
+                        </div>
                     )}
                 </div>
 
@@ -147,9 +180,37 @@ export default function App() {
                     />
 
                     {errors.email && (
+                        <div className="flex relative items-center justify-between">
                         <p className="text-xs font-light text-red-700">
                             {errors.email.message}
                         </p>
+                        <button
+                            className="text-xs underline"
+                            onClick={toggleHandler}
+                        >
+                            Rules
+                        </button>
+                        {toggle ? (
+                            <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                                <p className="text-lg cursor-pointer flex justify-end" onClick={toggleHandler}>&times;</p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Name</span> - must be string, can not have
+                                    numbers, can be maximum 30 characters.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Email</span>  - must be string, the structure of
+                                    the input must match valid email
+                                    structure, i.e. user@address.com.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Phone</span>  - must be string,</p>
+                                    <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Message</span>  - must be string, at least 80
+                                    characters.
+                                </p>
+                            </div>
+                        ) : null}
+                    </div>
                     )}
                 </div>
 
@@ -172,9 +233,37 @@ export default function App() {
                     />
 
                     {errors.number && (
+                        <div className="flex relative items-center justify-between">
                         <p className="text-xs font-light text-red-700">
                             {errors.number.message}
                         </p>
+                        <button
+                            className="text-xs underline"
+                            onClick={toggleHandler}
+                        >
+                            Rules
+                        </button>
+                        {toggle ? (
+                            <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                                <p className="text-lg cursor-pointer flex justify-end" onClick={toggleHandler}>&times;</p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Name</span> - must be string, can not have
+                                    numbers, can be maximum 30 characters.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Email</span>  - must be string, the structure of
+                                    the input must match valid email
+                                    structure, i.e. user@address.com.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Phone</span>  - must be string,</p>
+                                    <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Message</span>  - must be string, at least 80
+                                    characters.
+                                </p>
+                            </div>
+                        ) : null}
+                    </div>
                     )}
                 </div>
 
@@ -202,14 +291,70 @@ export default function App() {
                         // }}
                     />
                     {foundBadWord ? (
-                        <p className="text-xs font-light text-red-700">
-                            Found bad words!
-                        </p>
-                    ) : null}
-                    {errors.message && (
+                        <div className="flex relative items-center justify-between">
                         <p className="text-xs font-light text-red-700">
                             {errors.message.message}
                         </p>
+                        <button
+                            className="text-xs underline"
+                            onClick={toggleHandler}
+                        >
+                            Rules
+                        </button>
+                        {toggle ? (
+                            <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                                <p className="text-lg cursor-pointer flex justify-end" onClick={toggleHandler}>&times;</p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Name</span> - must be string, can not have
+                                    numbers, can be maximum 30 characters.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Email</span>  - must be string, the structure of
+                                    the input must match valid email
+                                    structure, i.e. user@address.com.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Phone</span>  - must be string,</p>
+                                    <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Message</span>  - must be string, at least 80
+                                    characters.
+                                </p>
+                            </div>
+                        ) : null}
+                    </div>
+                    ) : null}
+                    {errors.message && (
+                        <div className="flex relative items-center justify-between">
+                        <p className="text-xs font-light text-red-700">
+                            {errors.message.message}
+                        </p>
+                        <button
+                            className="text-xs underline"
+                            onClick={toggleHandler}
+                        >
+                            Rules
+                        </button>
+                        {toggle ? (
+                            <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                                <p className="text-lg cursor-pointer flex justify-end" onClick={toggleHandler}>&times;</p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Name</span> - must be string, can not have
+                                    numbers, can be maximum 30 characters.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Email</span>  - must be string, the structure of
+                                    the input must match valid email
+                                    structure, i.e. user@address.com.
+                                </p>
+                                <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Phone</span>  - must be string,</p>
+                                    <p className="pb-1">
+                                    <span className="font-bold text-blue-600">Message</span>  - must be string, at least 80
+                                    characters.
+                                </p>
+                            </div>
+                        ) : null}
+                    </div>
                     )}
                 </div>
                 {foundBadWord ? (
