@@ -34,7 +34,12 @@ const customStyles = {
 export default function App() {
     const [data, setData] = useState("");
     const [foundBadWord, setfoundBadWord] = useState(false);
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
+    const [nameToggle, setNameToggle] = useState(false);
+    const [emailToggle, setEmailToggle] = useState(false);
+    const [numberToggle, setNumberToggle] = useState(false);
+    const [messageToggle, setMessageToggle] = useState(false);
+    const [badwordToggle, setBadwordToggle] = useState(false);
 
     const {
         register,
@@ -65,8 +70,48 @@ export default function App() {
         setIsOpen(false);
     }
 
-    const toggleHandler = () => {
-        setToggle(!toggle);
+    // const toggleHandler = () => {
+    //     setToggle(!toggle);
+    // };
+
+    const nameRuleToggle = () => {
+        setNameToggle(!nameToggle);
+        setEmailToggle(false);
+        setNumberToggle(false);
+        setMessageToggle(false);
+        setBadwordToggle(false);
+    };
+
+    const emailRuleToggle = () => {
+        setNameToggle(false);
+        setEmailToggle(!emailToggle);
+        setNumberToggle(false);
+        setMessageToggle(false);
+        setBadwordToggle(false);
+    };
+
+    const numberRuleToggle = () => {
+        setNameToggle(false);
+        setEmailToggle(false);
+        setNumberToggle(!numberToggle);
+        setMessageToggle(false);
+        setBadwordToggle(false);
+    };
+
+    const messageRuleToggle = () => {
+        setNameToggle(false);
+        setEmailToggle(false);
+        setNumberToggle(false);
+        setMessageToggle(!messageToggle);
+        setBadwordToggle(false);
+    };
+
+    const badwordToggleHandler = () => {
+        setNameToggle(false);
+        setEmailToggle(false);
+        setNumberToggle(false);
+        setMessageToggle(false);
+        setBadwordToggle(!badwordToggle);
     };
 
     const handleBadWords = (e) => {
@@ -132,15 +177,15 @@ export default function App() {
                             </p>
                             <button
                                 className="text-xs underline"
-                                onClick={toggleHandler}
+                                onClick={nameRuleToggle}
                             >
                                 Rules
                             </button>
-                            {toggle ? (
-                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                            {nameToggle ? (
+                                <div className="absolute left-64 bottom-5 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
                                     <p
                                         className="text-lg cursor-pointer flex justify-end"
-                                        onClick={toggleHandler}
+                                        onClick={nameRuleToggle}
                                     >
                                         &times;
                                     </p>
@@ -204,15 +249,15 @@ export default function App() {
                             </p>
                             <button
                                 className="text-xs underline"
-                                onClick={toggleHandler}
+                                onClick={emailRuleToggle}
                             >
                                 Rules
                             </button>
-                            {toggle ? (
-                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                            {emailToggle ? (
+                                <div className="absolute left-64 bottom-5 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
                                     <p
                                         className="text-lg cursor-pointer flex justify-end"
-                                        onClick={toggleHandler}
+                                        onClick={emailRuleToggle}
                                     >
                                         &times;
                                     </p>
@@ -275,15 +320,15 @@ export default function App() {
                             </p>
                             <button
                                 className="text-xs underline"
-                                onClick={toggleHandler}
+                                onClick={numberRuleToggle}
                             >
                                 Rules
                             </button>
-                            {toggle ? (
-                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                            {numberToggle ? (
+                                <div className="absolute left-64 bottom-5 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
                                     <p
                                         className="text-lg cursor-pointer flex justify-end"
-                                        onClick={toggleHandler}
+                                        onClick={numberRuleToggle}
                                     >
                                         &times;
                                     </p>
@@ -331,13 +376,10 @@ export default function App() {
                         {...register("message", {
                             required: "Message is Required",
                             minLength: {
-                                value: 0,
-                                message: "Minimum Required length is 0",
-                            },
-                            maxLength: {
                                 value: 80,
-                                message: "Maximum allowed length is 80 ",
+                                message: "Minimum Required length is 80",
                             },
+
                             onChange: (e) => handleBadWords(e),
                         })}
                         // onKeyUp={() => {
@@ -347,19 +389,19 @@ export default function App() {
                     {foundBadWord ? (
                         <div className="flex relative items-center justify-between">
                             <p className="text-xs font-light text-red-700">
-                                {errors.message.message}
+                                Bad words found!
                             </p>
                             <button
                                 className="text-xs underline"
-                                onClick={toggleHandler}
+                                onClick={messageRuleToggle}
                             >
                                 Rules
                             </button>
-                            {toggle ? (
-                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                            {messageToggle ? (
+                                <div className="absolute left-64 bottom-5 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
                                     <p
                                         className="text-lg cursor-pointer flex justify-end"
-                                        onClick={toggleHandler}
+                                        onClick={messageRuleToggle}
                                     >
                                         &times;
                                     </p>
@@ -402,15 +444,15 @@ export default function App() {
                             </p>
                             <button
                                 className="text-xs underline"
-                                onClick={toggleHandler}
+                                onClick={badwordToggleHandler}
                             >
                                 Rules
                             </button>
-                            {toggle ? (
-                                <div className="absolute left-72 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
+                            {badwordToggle ? (
+                                <div className="absolute left-64 bottom-5 w-56 text-xs text-slate-600 bg-white p-2 border rounded-md">
                                     <p
                                         className="text-lg cursor-pointer flex justify-end"
-                                        onClick={toggleHandler}
+                                        onClick={badwordToggleHandler}
                                     >
                                         &times;
                                     </p>
