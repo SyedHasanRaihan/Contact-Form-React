@@ -147,7 +147,7 @@ export default function App() {
                 <div className="p-2 flex flex-col">
                     <label className="pb-1 text-sm">Name</label>
                     <input
-                        className="p-2 border rounded-lg focus:outline-blue-500 "
+                        className="p-2 border rounded-lg focus:outline-blue-500"
                         placeholder="Name"
                         type="text"
                         {...register("name", {
